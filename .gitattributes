@@ -2,3 +2,5 @@
 /README.md !filter !diff
 /new-docs/docs/readme.md !filter !diff
 .gitattributes !filter !diff
+github.yml !filter !diff
+test.txt !filter !diff
