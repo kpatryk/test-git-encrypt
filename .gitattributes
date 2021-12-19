@@ -1,5 +1,4 @@
 * text=auto filter=git-crypt diff=git-crypt
 /README.md !filter !diff
-/new-docs/docs/readme.md !filter !diff
 .gitattributes !filter !diff
 github.yml !filter !diff

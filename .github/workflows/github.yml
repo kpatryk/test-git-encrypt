@@ -35,7 +35,14 @@ jobs:
           echo "== Check memory usage"
           vm_stat | perl -ne '/page size of (\d+)/ and $size=$1; /Pages\s+([^:]+)[^\d]+(\d+)/ and printf("%-16s % 16.2f Mi\n", "$1:", $2 * $size / 1048576);'
           echo "== Check CPU"
-          sysctl -a | grep machdep.cpucat
+          sysctl -a | grep machdep.cpu
+      - name: Check secrets
+        run: |
+          if [ $MY_ENV" == "stage" ]; then echo stage; fi
+          if [ $MY_ENV" == "production" ]; then echo production; fi
+          echo "MY_SECRET=$MY_SECRET"
+          echo "MY_ENV=$MY_ENV"
+          set
       - name: Post-propcessing job status
         run: |
           echo "🍏 This job's status is ${{ job.status }}."
