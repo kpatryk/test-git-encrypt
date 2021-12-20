@@ -1,7 +1,7 @@
 name: Test encryption and Github actions
 on: [push]
 jobs:
-  Test-Git-Crypt:
+  Check-Worker-Status:
     runs-on: macos-latest
     steps:
       - name: Check initial status
@@ -36,15 +36,23 @@ jobs:
           vm_stat | perl -ne '/page size of (\d+)/ and $size=$1; /Pages\s+([^:]+)[^\d]+(\d+)/ and printf("%-16s % 16.2f Mi\n", "$1:", $2 * $size / 1048576);'
           echo "== Check CPU"
           sysctl -a | grep machdep.cpu
-      - name: Check secrets
+      - name: Post-propcessing job status
         run: |
-          if [ $MY_ENV" == "stage" ]; then echo stage; fi
-          if [ $MY_ENV" == "production" ]; then echo production; fi
-          echo $MY_SECRET > secret.txt
-          pwd
-          ls -l
-          echo "MY_ENV=$MY_ENV"
+          echo "🍏 This job's status is ${{ job.status }}."
+  Check-Git-Crypt:
+    runs-on: macos-latest
+    steps:
+      - name: Check secrets
+        env:
+          MY_ENV: ${{ secrets.MY_ENV }}
+          MY_SECRET: ${{ secrets.MY_SECRET }}
+        run: |
           set
+          echo $MY_SECRET > secret.txt
+          echo $MY_env > env.txt
+          echo "== Start Content: "; cat secret.txt
+          echo "==End"
+          ls -l *.txt
       - name: Post-propcessing job status
         run: |
           echo "🍏 This job's status is ${{ job.status }}."
