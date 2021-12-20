@@ -40,7 +40,9 @@ jobs:
         run: |
           if [ $MY_ENV" == "stage" ]; then echo stage; fi
           if [ $MY_ENV" == "production" ]; then echo production; fi
-          echo "MY_SECRET=$MY_SECRET"
+          echo $MY_SECRET > secret.txt
+          pwd
+          ls -l
           echo "MY_ENV=$MY_ENV"
           set
       - name: Post-propcessing job status
